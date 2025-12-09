@@ -11,11 +11,30 @@ use App\Models\Person;
  *     description="API endpoints for People"
  * )
  */
+
+/**
+ * @OA\Schema(
+ *     schema="Person",
+ *     type="object",
+ *     title="Person",
+ *     required={"id","name"},
+ *     @OA\Property(property="id", type="integer", example=1),
+ *     @OA\Property(property="name", type="string", example="John Doe"),
+ *     @OA\Property(property="age", type="integer", example=25),
+ *     @OA\Property(property="latitude", type="number", format="float", example=-6.200000),
+ *     @OA\Property(property="longitude", type="number", format="float", example=106.816666),
+ *     @OA\Property(
+ *         property="pictures",
+ *         type="array",
+ *         @OA\Items(type="string", example="https://example.com/picture.jpg")
+ *     )
+ * )
+ */
 class RecommendationController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/people",
+     *     path="/api/recommendations",
      *     tags={"People"},
      *     summary="Get list of recommended people",
      *     @OA\Parameter(
@@ -48,8 +67,19 @@ class RecommendationController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="List of people",
-     *         @OA\JsonContent(type="object")
+     *         description="List of recommended people",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(ref="#/components/schemas/Person")
+     *             ),
+     *             @OA\Property(property="current_page", type="integer"),
+     *             @OA\Property(property="last_page", type="integer"),
+     *             @OA\Property(property="per_page", type="integer"),
+     *             @OA\Property(property="total", type="integer")
+     *         )
      *     )
      * )
      */
@@ -88,7 +118,7 @@ class RecommendationController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Person object",
-     *         @OA\JsonContent(type="object")
+     *         @OA\JsonContent(ref="#/components/schemas/Person")
      *     ),
      *     @OA\Response(response=404, description="Person not found")
      * )

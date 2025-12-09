@@ -136,13 +136,13 @@
                 }
             }
         },
-        "/api/people": {
+        "/api/recommendations": {
             "get": {
                 "tags": [
                     "People"
                 ],
                 "summary": "Get list of recommended people",
-                "operationId": "75e2bf0e39ef85d0c4de2c6a888f9fa6",
+                "operationId": "f0ac77661847d67e935d73ea3c9000f0",
                 "parameters": [
                     {
                         "name": "per_page",
@@ -188,10 +188,30 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of people",
+                        "description": "List of recommended people",
                         "content": {
                             "application/json": {
                                 "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Person"
+                                            }
+                                        },
+                                        "current_page": {
+                                            "type": "integer"
+                                        },
+                                        "last_page": {
+                                            "type": "integer"
+                                        },
+                                        "per_page": {
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        }
+                                    },
                                     "type": "object"
                                 }
                             }
@@ -224,7 +244,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/Person"
                                 }
                             }
                         }
@@ -233,6 +253,49 @@
                         "description": "Person not found"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Person": {
+                "title": "Person",
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 25
+                    },
+                    "latitude": {
+                        "type": "number",
+                        "format": "float",
+                        "example": -6.2
+                    },
+                    "longitude": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 106.816666
+                    },
+                    "pictures": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://example.com/picture.jpg"
+                        }
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -247,7 +310,7 @@
         },
         {
             "name": "People",
-            "description": "API endpoints for People"
+            "description": "People"
         }
     ]
 }
